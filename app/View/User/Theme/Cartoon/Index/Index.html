@@ -1,4 +1,67 @@
 #{include file="./Header.html"}
+<style>
+  /* Critical CSS for Category Grid - Fallback */
+  .category-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 10px !important;
+    padding: 10px !important;
+  }
+
+  @media (min-width: 768px) {
+    .category-grid {
+      grid-template-columns: repeat(6, 1fr) !important;
+    }
+  }
+
+  .category-item {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 10px !important;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    color: #333;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+  }
+
+  .category-icon {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-bottom: 5px !important;
+    background: #f0f2f5;
+    border-radius: 50%;
+    overflow: hidden !important;
+  }
+
+  .category-icon img {
+    width: 24px !important;
+    height: 24px !important;
+    max-width: 24px !important;
+    max-height: 24px !important;
+    object-fit: contain !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  .category-name {
+    font-size: 12px !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    width: 100% !important;
+    font-weight: 500 !important;
+  }
+</style>
 <main class="container py-4">
   <!-- 公告面板 -->
   <div class="panel">
@@ -7,7 +70,7 @@
       <h6 class="panel-title">公告</h6>
     </div>
     <div class="panel-body">
-        #{$config.notice}
+      #{$config.notice}
     </div>
   </div>
 
@@ -20,22 +83,24 @@
     <div class="panel-body">
       <div class="mb-3">
         <div class="category-grid">
-            #{foreach $category as $cate}
-                <a data-id="#{$cate.id}" class="category-item switch-category #{if $cate@first && $categoryId == 0} active #{elseif $cate.id == $categoryId} active #{/if}" href="javascript:void(0);">
-                    <div class="category-icon">
-                        #{if $cate.id != 'recommend'}
-                        <img src="#{$cate.icon}" alt="#{$cate.name}">
-                        #{else}
-                        <i class="fa-duotone fa-thumbs-up"></i>
-                        #{/if}
-                    </div>
-                    <div class="category-name">#{$cate.name}</div>
-                </a>
-            #{/foreach}
+          #{foreach $category as $cate}
+          <a data-id="#{$cate.id}"
+            class="category-item switch-category #{if $cate@first && $categoryId == 0} active #{elseif $cate.id == $categoryId} active #{/if}"
+            href="javascript:void(0);">
+            <div class="category-icon">
+              #{if $cate.id != 'recommend'}
+              <img src="#{$cate.icon}" alt="#{$cate.name}">
+              #{else}
+              <i class="fa-duotone fa-thumbs-up"></i>
+              #{/if}
+            </div>
+            <div class="category-name">#{$cate.name}</div>
+          </a>
+          #{/foreach}
         </div>
       </div>
       <div class="row item-list">
-          <div class="item-message">努力加载中..</div>
+        <div class="item-message">努力加载中..</div>
       </div>
     </div>
   </div>
