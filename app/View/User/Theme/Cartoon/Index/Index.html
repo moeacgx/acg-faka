@@ -19,9 +19,18 @@
     </div>
     <div class="panel-body">
       <div class="mb-3">
-        <div class="chip-list">
+        <div class="category-grid">
             #{foreach $category as $cate}
-                <a data-id="#{$cate.id}" class="switch-category chip #{if $cate@first && $categoryId == 0} is-primary #{elseif $cate.id == $categoryId} is-primary #{/if}" href="javascript:void(0);">#{if $cate.id != 'recommend'}<span class="chip-icon" style="background: url('#{$cate.icon}') center/cover no-repeat;"></span>#{/if}#{$cate.name}</a>
+                <a data-id="#{$cate.id}" class="category-item switch-category #{if $cate@first && $categoryId == 0} active #{elseif $cate.id == $categoryId} active #{/if}" href="javascript:void(0);">
+                    <div class="category-icon">
+                        #{if $cate.id != 'recommend'}
+                        <img src="#{$cate.icon}" alt="#{$cate.name}">
+                        #{else}
+                        <i class="fa-duotone fa-thumbs-up"></i>
+                        #{/if}
+                    </div>
+                    <div class="category-name">#{$cate.name}</div>
+                </a>
             #{/foreach}
         </div>
       </div>

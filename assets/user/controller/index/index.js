@@ -13,29 +13,32 @@
 
         data.forEach(item => {
             const isSoldOut = item.stock == 0;
-            $ItemList.append(`<a href="${!isSoldOut ? `/item/${item.id}` : `javascript:void(0);`}" class="col-12 col-md-6 col-lg-3 mb-3" data-id="${item.id}">
-          <div class="acg-card ${isSoldOut ? `soldout` : ``} h-100">
-            <div class="acg-thumb" style="background: url('${item.cover}') center/cover no-repeat;"></div>
-            <div class="p-3">
-              <div class="tags">
-              <span class="badge-soft badge-soft-success">${item.delivery_way === 0 ? '自动发货' : '在线发货'}</span>
-              ${item.recommend == 1 ? `<span class="badge-soft badge-soft-primary">推荐</span>` : ``}
-              </div>
-              <p class="goods-title">${item.name}</p>
-              <div class="stat-row mb-1">
-                <div class="price"><span class="unit">¥</span>${item.price}</div>
-              </div>
-              <div class="stat-bottom"><span>库存：${item.stock}</span><span>已售：${item.order_sold}</span></div>
-            </div>
-            ${isSoldOut ? `<div class="soldout-ribbon">售罄</div>` : ``}
-          </div>
-        </a>`);
+            $ItemList.append(`
+            <div class="col-12 mb-2" data-id="${item.id}">
+                <div class="product-item-row ${isSoldOut ? 'soldout' : ''}">
+                    <div class="product-info">
+                        <div class="product-name-row">
+                            ${item.recommend == 1 ? `<span class="badge-soft badge-soft-primary me-1">推荐</span>` : ``}
+                            <span class="product-name">${item.name}</span>
+                        </div>
+                        <div class="product-meta-row">
+                             <span class="product-price">¥${item.price}</span>
+                             <span class="product-stock ms-3">库存: ${item.stock}</span>
+                        </div>
+                    </div>
+                    <div class="product-action">
+                        <a href="${!isSoldOut ? `/item/${item.id}` : `javascript:void(0);`}" class="btn-buy ${isSoldOut ? 'disabled' : ''}">
+                            ${isSoldOut ? '缺货' : '购买'}
+                        </a>
+                    </div>
+                </div>
+            </div>`);
         });
     }
 
     function _SwitchCategory(id, link = false) {
-        $SwitchCategory.removeClass("is-primary");
-        $(`a[data-id=${id}]`).addClass("is-primary");
+        $SwitchCategory.removeClass("active");
+        $(`a[data-id=${id}]`).addClass("active");
         if (link) {
             history.pushState(null, '', `/cat/${id}`);
         }
@@ -54,7 +57,7 @@
             return;
         }
 
-        $SwitchCategory.removeClass("is-primary");
+        $SwitchCategory.removeClass("active");
 
         trade.getCommodityList({
             keywords: keywords,
@@ -70,7 +73,7 @@
 
 
     $SwitchCategory.click(function () {
-        if ($(this).hasClass("is-primary")) {
+        if ($(this).hasClass("active")) {
             return;
         }
         _SwitchCategory($(this).data("id"), true);
